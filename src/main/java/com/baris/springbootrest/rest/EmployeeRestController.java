@@ -1,12 +1,12 @@
 package com.baris.springbootrest.rest;
 
-import com.baris.springbootrest.dao.EmployeeDAO;
 import com.baris.springbootrest.entity.Employee;
 import com.baris.springbootrest.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -22,7 +22,7 @@ public class EmployeeRestController {
     }
 
     @GetMapping("/employees/{employeeId}")
-    public Employee getEmployee(@PathVariable int employeeId) {
+    public Optional<Employee> getEmployee(@PathVariable int employeeId) {
         return employeeService.findById(employeeId);
     }
 
@@ -36,10 +36,10 @@ public class EmployeeRestController {
 
     @DeleteMapping("/employees/{employeeId}")
     public Employee deleteEmployee(@PathVariable int employeeId) {
-        Employee tempEmployee= employeeService.findById(employeeId);
+        Optional<Employee> tempEmployee= employeeService.findById(employeeId);
         employeeService.deleteById(employeeId);
 
-        return tempEmployee;
+        return tempEmployee.get();
 
     }
 
